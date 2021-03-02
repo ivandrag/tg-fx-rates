@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ro.dragosivanov.tgo.MainApplication
 import ro.dragosivanov.tgo.R
 import ro.dragosivanov.tgo.di.AppContainer
@@ -17,11 +19,16 @@ class CurrencySelectorDialogFragment : DialogFragment() {
 
     private lateinit var currencySelectorDialogViewModel: CurrencySelectorDialogViewModel
     private lateinit var appContainer: AppContainer
+    private lateinit var currencySelectorAdapter: CurrencySelectorAdapter
+    private lateinit var countryListRecyclerView: RecyclerView
 
     private val onEventObserver = Observer<CurrencySelectorDialogViewModel.OnEvent> {
         when(it) {
             is CurrencySelectorDialogViewModel.OnEvent.AllCurrencies -> {
-                println(it.currencyList)
+                countryListRecyclerView.adapter = currencySelectorAdapter
+                countryListRecyclerView.layoutManager = LinearLayoutManager(activity)
+                currencySelectorAdapter.countryList.addAll(it.currencyList)
+                currencySelectorAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -41,6 +48,10 @@ class CurrencySelectorDialogFragment : DialogFragment() {
             initDependencyInjection()
         ).get(CurrencySelectorDialogViewModel::class.java)
         registerObservers()
+        countryListRecyclerView = activity?.findViewById(R.id.country_list_recyclerView) as RecyclerView
+        currencySelectorAdapter = CurrencySelectorAdapter {
+            println(it)
+        }
         currencySelectorDialogViewModel.getCurrencies()
     }
 
@@ -61,6 +72,6 @@ class CurrencySelectorDialogFragment : DialogFragment() {
     }
 
     private fun registerObservers() {
-        currencySelectorDialogViewModel.onEvent.observe(this, onEventObserver)
+        currencySelectorDialogViewModel.onEvent.observe(viewLifecycleOwner, onEventObserver)
     }
 }

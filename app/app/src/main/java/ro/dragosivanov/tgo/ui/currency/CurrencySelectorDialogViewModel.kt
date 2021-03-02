@@ -3,6 +3,9 @@ package ro.dragosivanov.tgo.ui.currency
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import ro.dragosivanov.tgo.domain.model.Country
 import ro.dragosivanov.tgo.domain.usecase.ForeignExchangeUseCase
 
@@ -15,9 +18,9 @@ class CurrencySelectorDialogViewModel(
     val onEvent: LiveData<OnEvent>
         get() = _onEvent
 
-    fun getCurrencies() {
+    fun getCurrencies() = viewModelScope.launch(Dispatchers.IO) {
         val currencyList = foreignExchangeUseCase.getCurrencies()
-        _onEvent.value = OnEvent.AllCurrencies(currencyList)
+        _onEvent.postValue(OnEvent.AllCurrencies(currencyList))
     }
 
     sealed class OnEvent {

@@ -73,10 +73,10 @@
 
     <EditText
         android:id="@+id/amount_edit_text"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/large_margin_size"
-        android:layout_marginEnd="@dimen/large_margin_size"
+        android:layout_marginEnd="@dimen/small_margin_size"
         android:text="@string/foreign_exchange_default_amount_text"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/guide_line"
@@ -89,8 +89,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/large_margin_size"
         android:layout_marginTop="@dimen/large_margin_size"
-        android:text="@string/foreign_exchange_converted_amount_text"
         android:visibility="gone"
+        android:text="@string/foreign_exchange_converted_amount_text"
         app:layout_constraintStart_toStartOf="@+id/guide_line"
         app:layout_constraintTop_toBottomOf="@+id/to_text_view" />
 
@@ -98,11 +98,11 @@
         android:id="@+id/converted_amount_edit_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_marginStart="@dimen/large_margin_size"
         android:layout_marginEnd="@dimen/large_margin_size"
         android:text="@string/foreign_exchange_default_amount_text"
         android:textStyle="bold"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guide_line"
         app:layout_constraintTop_toBottomOf="@+id/converted_amount_title_text_view" />
