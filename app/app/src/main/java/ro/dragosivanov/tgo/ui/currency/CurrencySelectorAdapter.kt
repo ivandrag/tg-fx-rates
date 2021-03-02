@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ro.dragosivanov.tgo.R
 import ro.dragosivanov.tgo.domain.model.Country
 
-class CurrencySelectorAdapter(private val onItemClick: (String) -> Unit) :
+class CurrencySelectorAdapter(private val onItemClick: (String, Int) -> Unit) :
     RecyclerView.Adapter<CurrencySelectorAdapter.ViewHolder>() {
 
     val countryList = mutableListOf<Country>()
@@ -29,7 +29,7 @@ class CurrencySelectorAdapter(private val onItemClick: (String) -> Unit) :
         holder.bindData(country)
     }
 
-    class ViewHolder(private val view: View, private val onItemClick: (String) -> Unit) :
+    class ViewHolder(private val view: View, private val onItemClick: (String, Int) -> Unit) :
         RecyclerView.ViewHolder(view) {
 
         private lateinit var currencyFlagImageView: ImageView
@@ -41,7 +41,7 @@ class CurrencySelectorAdapter(private val onItemClick: (String) -> Unit) :
             currencyFlagImageView.setBackgroundResource(country.flag)
             currencyCodeTextView.text = country.code
             view.setOnClickListener {
-                onItemClick(country.code)
+                onItemClick(country.code, country.flag)
             }
         }
     }

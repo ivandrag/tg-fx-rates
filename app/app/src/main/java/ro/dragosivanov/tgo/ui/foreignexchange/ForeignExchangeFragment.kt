@@ -2,12 +2,9 @@ package ro.dragosivanov.tgo.ui.foreignexchange
 
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.view.marginEnd
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,10 +14,12 @@ import ro.dragosivanov.tgo.R
 import ro.dragosivanov.tgo.di.AppContainer
 import ro.dragosivanov.tgo.di.ForeignExchangeContainer
 import ro.dragosivanov.tgo.di.ForeignExchangeViewModelFactory
+import ro.dragosivanov.tgo.ui.SharedViewModel
 
 class ForeignExchangeFragment : Fragment(R.layout.fragment_foreign_exchange) {
 
     private lateinit var foreignExchangeViewModel: ForeignExchangeViewModel
+    private lateinit var sharedViewModel: SharedViewModel
     private lateinit var appContainer: AppContainer
     private lateinit var convertButton: Button
     private lateinit var fromTextView: TextView
@@ -32,6 +31,7 @@ class ForeignExchangeFragment : Fragment(R.layout.fragment_foreign_exchange) {
     private val onEventObserver = Observer<ForeignExchangeViewModel.OnEvent> {
         when (it) {
             is ForeignExchangeViewModel.OnEvent.Success -> {
+                println(it.exchangedCurrency)
                 convertedAmountTitleTextView.visibility = View.VISIBLE
                 convertedAmountEditText.visibility = View.VISIBLE
                 fromTextView.text = it.exchangedCurrency.from
@@ -42,12 +42,23 @@ class ForeignExchangeFragment : Fragment(R.layout.fragment_foreign_exchange) {
         }
     }
 
+    private val onItemClickObserver = Observer<SharedViewModel.OnEvent> {
+        when (it) {
+            is SharedViewModel.OnEvent.ItemClick -> {
+                fromTextView.text = it.code
+                val flagImage = activity?.resources?.getDrawable(it.flag)
+                fromTextView.setCompoundDrawablesWithIntrinsicBounds(flagImage, null, null, null)
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         foreignExchangeViewModel = ViewModelProvider(
             this,
             initDependencyInjection()
         ).get(ForeignExchangeViewModel::class.java)
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
 
         registerObservers()
         initViews()
@@ -82,6 +93,7 @@ class ForeignExchangeFragment : Fragment(R.layout.fragment_foreign_exchange) {
 
     private fun registerObservers() {
         foreignExchangeViewModel.onEvent.observe(viewLifecycleOwner, onEventObserver)
+        sharedViewModel.onEvent.observe(viewLifecycleOwner, onItemClickObserver)
     }
 
     private fun initViews() {
