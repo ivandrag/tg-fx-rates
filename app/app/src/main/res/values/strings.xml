@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">FxRates</string>
+
+    <!--    ForeignExchange Fragment-->
+    <string name="foreign_exchange_default_from_currency_text">EUR</string>
+    <string name="foreign_exchange_default_to_currency_text">GBP</string>
+    <string name="foreign_exchange_default_amount_text">1.00</string>
+    <string name="foreign_exchange_from_text">From:</string>
+    <string name="foreign_exchange_to_text">To:</string>
+    <string name="foreign_exchange_amount_text">Amount:</string>
+    <string name="foreign_exchange_converted_amount_text">Converted to:</string>
+    <string name="foreign_exchange_button_text">Convert</string>
 </resources>

@@ -3,11 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation_graph"
-    app:startDestination="@id/foreignExchange">
+    app:startDestination="@id/foreignExchangeFragment">
 
     <fragment
-        android:id="@+id/foreignExchange"
+        android:id="@+id/foreignExchangeFragment"
         android:name="ro.dragosivanov.tgo.ui.foreignexchange.ForeignExchangeFragment"
-        tools:layout="@layout/fragment_foreign_exchange" />
+        tools:layout="@layout/fragment_foreign_exchange">
+
+        <action
+            android:id="@+id/startCurrencySelectorDialog"
+            app:destination="@+id/currencySelectorFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/currencySelectorFragment"
+        android:name="ro.dragosivanov.tgo.ui.currency.CurrencySelectorDialogFragment"
+        tools:layout="@layout/fragment_currency_selector_dialog" />
 
 </navigation>

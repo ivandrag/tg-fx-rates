@@ -8,4 +8,6 @@ class ForeignExchangeUseCase(
 
     suspend fun exchangeCurrencyRates(from: String, to: String, amount: Float) =
         foreignExchangeRepository.exchangeCurrencyRates(from, to, amount)
+
+    fun getCurrencies() = foreignExchangeRepository.getCurrencies()
 }
