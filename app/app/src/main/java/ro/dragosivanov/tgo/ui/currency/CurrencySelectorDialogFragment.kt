@@ -69,7 +69,7 @@ class CurrencySelectorDialogFragment : DialogFragment() {
         appContainer = (activity?.application as MainApplication).appContainer
         appContainer.currencySelectorDialogContainer =
             CurrencySelectorDialogContainer(appContainer.foreignExchangeApiService)
-        appContainer.foreignExchangeContainer?.let {
+        appContainer.currencySelectorDialogContainer?.let {
             val foreignExchangeUseCase = it.foreignExchangeUseCase
             return ForeignExchangeViewModelFactory(foreignExchangeUseCase)
         }
